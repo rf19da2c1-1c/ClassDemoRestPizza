@@ -31,9 +31,16 @@ namespace ClassDemoRestPizza.Controllers
         // GET api/<PizzasController>/5
         [HttpGet]
         [Route("{nr}")]
-        public Pizza Get(int nr)
+        [ProducesResponseType(statusCode: 200)]
+        [ProducesResponseType(statusCode: 404)]
+        public IActionResult Get(int nr)
         {
-            return _data.Find(p => p.Nr == nr);
+            if (_data.Exists(p => p.Nr == nr))
+            {
+                return Ok(_data.Find(p => p.Nr == nr));
+            }
+            return NotFound($"Pizza med {nr} findes ikke");
+
         }
 
 
@@ -75,30 +82,30 @@ namespace ClassDemoRestPizza.Controllers
             _data.Add(value);
         }
 
-        // PUT api/<PizzasController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Pizza value)
-        {
-            Pizza pizza = Get(id);
-            if (pizza != null)
-            {
-                pizza.Nr = value.Nr;
-                pizza.Desciption = value.Desciption;
-                pizza.FamilyPizza = value.FamilyPizza;
-                pizza.Price = value.Price;
-            }
-        }
+        //// PUT api/<PizzasController>/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] Pizza value)
+        //{
+        //    Pizza pizza = Get(id);
+        //    if (pizza != null)
+        //    {
+        //        pizza.Nr = value.Nr;
+        //        pizza.Desciption = value.Desciption;
+        //        pizza.FamilyPizza = value.FamilyPizza;
+        //        pizza.Price = value.Price;
+        //    }
+        //}
 
 
-        // DELETE api/<PizzasController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            Pizza pizza = Get(id);
-            if (pizza != null)
-            {
-                _data.Remove(pizza);
-            }
-        }
+        //// DELETE api/<PizzasController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //    Pizza pizza = Get(id);
+        //    if (pizza != null)
+        //    {
+        //        _data.Remove(pizza);
+        //    }
+        //}
     }
 }
