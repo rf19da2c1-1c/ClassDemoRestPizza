@@ -57,7 +57,7 @@ namespace ClassDemoRestPizza.Controllers
             if (query.Family != null)
             {
                 bool familyPizza = (query.Family == "true");
-                tmpList2 = _data.FindAll(p => p.FamilyPizza == familyPizza);
+                tmpList2 = tmpList.FindAll(p => p.FamilyPizza == familyPizza);
             }
             else
             {
