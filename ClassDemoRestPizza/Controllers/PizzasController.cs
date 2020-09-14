@@ -29,10 +29,43 @@ namespace ClassDemoRestPizza.Controllers
         }
 
         // GET api/<PizzasController>/5
-        [HttpGet("{id}")]
-        public Pizza Get(int id)
+        [HttpGet]
+        [Route("{nr}")]
+        public Pizza Get(int nr)
         {
-            return _data.Find(p => p.Nr == id);
+            return _data.Find(p => p.Nr == nr);
+        }
+
+
+        // GET: api/<PizzasController>
+        [HttpGet]
+        [Route("Search")]
+        public IEnumerable<Pizza> Get([FromQuery] QueryPizza query)
+        {
+            List<Pizza> tmpList = null;
+            if (query.Topping != null)
+            {
+                tmpList = _data.FindAll(p => p.Desciption.Contains(query.Topping));
+            }
+            else
+            {
+                tmpList = _data;
+            }
+
+
+            List<Pizza> tmpList2 = null;
+            if (query.Family != null)
+            {
+                bool familyPizza = (query.Family == "true");
+                tmpList2 = _data.FindAll(p => p.FamilyPizza == familyPizza);
+            }
+            else
+            {
+                tmpList2 = tmpList;
+                    ;
+            }
+
+            return tmpList2;
         }
 
         // POST api/<PizzasController>
