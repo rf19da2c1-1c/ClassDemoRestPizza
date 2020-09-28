@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using PizzaLib.model;
 
@@ -18,11 +19,18 @@ namespace ClassDemoRestPizza.Controllers
         {
             new Pizza(1, "tomat, basilikum, ost", false, 45),
             new Pizza(2, "tomat, oregano, ost", true, 55),
-            new Pizza(3, "tomat, skinke, ost", false, 45)
+            new Pizza(3, "tomat, skinke, ost", false, 45),
+            new Pizza(4, "tomat, skinke, basilikum, ost", false, 47),
+            new Pizza(5, "tomat, skinke, oregano, ost", true, 45),
+            new Pizza(6, "tomat, skinke, Gorgonzola", false, 48),
+            new Pizza(7, "tomat, champignon, ost", true, 55),
+            new Pizza(8, "tomat, skinke, champignon, ost", false, 48)
+
         };
 
         // GET: api/<PizzasController>
         [HttpGet]
+        [EnableCors("PetersPizza")]
         public IEnumerable<Pizza> Get()
         {
             return _data;
@@ -82,30 +90,30 @@ namespace ClassDemoRestPizza.Controllers
             _data.Add(value);
         }
 
-        //// PUT api/<PizzasController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] Pizza value)
-        //{
-        //    Pizza pizza = Get(id);
-        //    if (pizza != null)
-        //    {
-        //        pizza.Nr = value.Nr;
-        //        pizza.Desciption = value.Desciption;
-        //        pizza.FamilyPizza = value.FamilyPizza;
-        //        pizza.Price = value.Price;
-        //    }
-        //}
+        // PUT api/<PizzasController>/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] Pizza value)
+        {
+            Pizza pizza = _data.Find(p => p.Nr == id);
+            if (pizza != null)
+            {
+                pizza.Nr = value.Nr;
+                pizza.Desciption = value.Desciption;
+                pizza.FamilyPizza = value.FamilyPizza;
+                pizza.Price = value.Price;
+            }
+        }
 
 
-        //// DELETE api/<PizzasController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //    Pizza pizza = Get(id);
-        //    if (pizza != null)
-        //    {
-        //        _data.Remove(pizza);
-        //    }
-        //}
+        // DELETE api/<PizzasController>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            Pizza pizza = _data.Find(p => p.Nr == id);
+            if (pizza != null)
+            {
+                _data.Remove(pizza);
+            }
+        }
     }
 }
