@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClassDemoRestPizza.DBUtil;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using PizzaLib.model;
@@ -33,6 +34,8 @@ namespace ClassDemoRestPizza.Controllers
         [EnableCors("PetersPizza")]
         public IEnumerable<Pizza> Get()
         {
+            //ManagePizza mgr = new ManagePizza();
+            //return mgr.Get();
             return _data;
         }
 

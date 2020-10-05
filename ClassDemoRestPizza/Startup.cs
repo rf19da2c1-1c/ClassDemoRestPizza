@@ -29,9 +29,9 @@ namespace ClassDemoRestPizza
             services.AddControllers();
 
             services.AddCors(
-                options =>
+                option =>
                 {
-                    options.AddPolicy("PetersPizza",
+                    option.AddPolicy("PetersPizza",
                         builder => builder.AllowAnyOrigin().AllowAnyHeader().WithMethods("GET", "PUT"));
                 }
             );
